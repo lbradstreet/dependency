@@ -2,6 +2,9 @@
 
 A data structure for representing dependency graphs in Clojure.
 
+This version has been forked from stuartsierra/dependency, in order to convert
+it to use cljx and support clojurescript.
+
 This library provides a basic implementation of a directed acyclic
 graph (DAG) data structure, represented as a pair of maps. It is
 immutable and persistent.
@@ -25,7 +28,8 @@ This library is released on [Clojars]. Latest release is 0.1.1.
 
 [Leiningen] dependency information:
 
-    [com.stuartsierra/dependency "0.1.1"]
+This fork is not currently on clojars.
+   <!--- [com.stuartsierra/dependency "0.1.1"] -->
 
 [Clojars]: http://clojars.org/
 [Leiningen]: http://leiningen.org/
@@ -33,8 +37,7 @@ This library is released on [Clojars]. Latest release is 0.1.1.
 
 ## Version Compatibility
 
-This library has been tested successfully with Clojure versions 1.3.0,
-1.4.0, and 1.5.1.
+This library (forked) has been tested successfully with Clojure version 1.5.1.
 
 
 ## Usage
