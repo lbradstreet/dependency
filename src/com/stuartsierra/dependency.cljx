@@ -57,6 +57,13 @@
 
 ;; Do not construct directly, use 'graph' function
 (deftype MapDependencyGraph [dependencies dependents]
+
+  Object
+  (equals [this that]
+    (and (= (.dependents this) (.dependents that))
+         (= (.dependencies this) (.dependencies that))))
+
+
   DependencyGraph
   (immediate-dependencies [graph node]
     (get dependencies node #{}))
@@ -73,24 +80,24 @@
   (depend [graph node dep]
     (when (or (= node dep) (depends? graph dep node))
       (throw (#+clj Exception. 
-              #+cljs js/Error.
-                     (str "Circular dependency between "
-                          (pr-str node) " and " (pr-str dep)))))
+                    #+cljs js/Error.
+                    (str "Circular dependency between "
+                         (pr-str node) " and " (pr-str dep)))))
     (MapDependencyGraph.
-     (update-in dependencies [node] set-conj dep)
-     (update-in dependents [dep] set-conj node)))
+      (update-in dependencies [node] set-conj dep)
+      (update-in dependents [dep] set-conj node)))
   (remove-edge [graph node dep]
     (MapDependencyGraph.
-     (update-in dependencies [node] disj dep)
-     (update-in dependents [dep] disj node)))
+      (update-in dependencies [node] disj dep)
+      (update-in dependents [dep] disj node)))
   (remove-all [graph node]
     (MapDependencyGraph.
-     (remove-from-map dependencies node)
-     (remove-from-map dependents node)))
+      (remove-from-map dependencies node)
+      (remove-from-map dependents node)))
   (remove-node [graph node]
     (MapDependencyGraph.
-     (dissoc dependencies node)
-     dependents)))
+      (dissoc dependencies node)
+      dependents)))
 
 (defn graph
   "Returns a new, empty, dependency graph. A graph contains nodes,
