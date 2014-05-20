@@ -1,4 +1,4 @@
-(defproject com.stuartsierra/dependency "0.1.3-SNAPSHOT"
+(defproject com.stuartsierra/dependency "0.1.4-SNAPSHOT"
   :description "A data structure for representing dependency graphs"
   :url "https://github.com/stuartsierra/dependency"
   :license {:name "Eclipse Public License"
@@ -7,6 +7,7 @@
   ;:resource-paths  ["target/generated/src/cljs"]
   :source-paths  ["target/generated"]
 
+  :hooks [cljx.hooks]
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.5.1"]
                                   [org.clojure/clojurescript "0.0-2156"]
                                   [com.keminglabs/cljx "0.3.2"]]

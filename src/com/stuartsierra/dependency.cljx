@@ -33,6 +33,8 @@
     "Returns a new graph with the dependency from node to dep removed.")
   (remove-all [graph node]
     "Returns a new dependency graph with all references to node removed.")
+  (remove-empty-nodes [graph]
+    "Returns a new dependency graph with any nodes with no edges removed")
   (remove-node [graph node]
     "Removes the node from the dependency graph without removing it as a
     dependency of other nodes. That is, removes all outgoing edges from
@@ -57,12 +59,10 @@
 
 ;; Do not construct directly, use 'graph' function
 (deftype MapDependencyGraph [dependencies dependents]
-
   Object
   (equals [this that]
     (and (= (.dependents this) (.dependents that))
          (= (.dependencies this) (.dependencies that))))
-
 
   DependencyGraph
   (immediate-dependencies [graph node]
@@ -90,6 +90,10 @@
     (MapDependencyGraph.
       (update-in dependencies [node] disj dep)
       (update-in dependents [dep] disj node)))
+  (remove-empty-nodes [graph]
+    (MapDependencyGraph.
+      (into {} (remove #(empty? (second %)) dependencies))
+      (into {} (remove #(empty? (second %)) dependents))))
   (remove-all [graph node]
     (MapDependencyGraph.
       (remove-from-map dependencies node)
