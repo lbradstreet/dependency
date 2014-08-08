@@ -88,8 +88,14 @@
       (update-in dependents [dep] set-conj node)))
   (remove-edge [graph node dep]
     (MapDependencyGraph.
-      (update-in dependencies [node] disj dep)
-      (update-in dependents [dep] disj node)))
+      (let [dcs (update-in dependencies [node] disj dep)]
+        (if (empty? (dcs node))
+          (dissoc dcs node)
+          dcs))
+      (let [dts (update-in dependents [dep] disj node)]
+        (if (empty? (dts node))
+          (dissoc dts node)
+          dts))))
   (remove-empty-nodes [graph]
     (MapDependencyGraph.
       (into {} (remove #(empty? (second %)) dependencies))
